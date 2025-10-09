@@ -14,12 +14,12 @@
     </tr>
   </thead>
   <tbody>
-    <% @student_guardians.each do |student_guardian| %>
+    <% @relationships.each do |relationship| %>
       <tr>
-        <td><%= student_guardian.guardian.name %></td>
-        <td><%= student_guardian.student.name %></td>
-        <td><%= student_guardian.relationship %></td>
-        <td><%= link_to "Show this Student Guardian", student_guardian %></td>
+        <td><%= relationship.guardian.name %></td>
+        <td><%= relationship.student.name %></td>
+        <td><%= relationship.relation %></td>
+        <td><%= link_to "Show this Student Guardian", relationship %></td>
       </tr>
     <% end %>
   </tbody>

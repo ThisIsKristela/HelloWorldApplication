@@ -20,12 +20,11 @@
     <%= form.label :guardian_id, "Guardian", style: "display: block" %>
     <%= form.collection_select :guardian_id, Guardian.all, :id, :name, prompt: "Select a guardian" %>
   </div>
-  
-  <div>
-    <%= form.label :relationship, style: "display: block" %>
-    <%= form.text_field :relationship %>
-  </div>
 
+   <div>
+    <%= form.label :relation, style: "display: block" %>
+    <%= form.text_field :relation %>
+  </div>
 
   <div>
     <%= form.submit %>

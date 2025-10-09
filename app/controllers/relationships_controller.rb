@@ -25,8 +25,8 @@ class RelationshipsController < ApplicationController
 
     respond_to do |format|
       if @relationship.save
-        @student_guardian.guardian.increment!(:number_of_students)
-        @student_guardian.student.increment!(:number_of_guardians) 
+        @relationship.guardian.increment!(:number_of_students)
+        @relationship.student.increment!(:number_of_guardians) 
 
         format.html { redirect_to @relationship, notice: "Relationship was successfully created." }
         format.json { render :show, status: :created, location: @relationship }
@@ -53,8 +53,8 @@ class RelationshipsController < ApplicationController
   # DELETE /relationships/1 or /relationships/1.json
   def destroy
     @relationship.destroy!
-    @student_guardian.guardian.decrement!(:number_of_students)
-    @student_guardian.student.decrement!(:number_of_guardians) 
+    @relationship.guardian.decrement!(:number_of_students)
+    @relationship.student.decrement!(:number_of_guardians) 
 
     respond_to do |format|
       format.html { redirect_to relationships_path, notice: "Relationship was successfully destroyed.", status: :see_other }
@@ -70,6 +70,6 @@ class RelationshipsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def relationship_params
-      params.expect(relationship: [ :student_id, :guardian_id ])
+      params.expect(relationship: [ :student_id, :guardian_id, :relation ])
     end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_09_072658) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_09_093026) do
   create_table "classlists", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "student_id", null: false
     t.bigint "section_id", null: false
@@ -34,10 +34,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_09_072658) do
     t.string "email_address"
     t.string "contact_number"
     t.integer "number_of_students"
-    t.bigint "student_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["student_id"], name: "index_guardians_on_student_id"
   end
 
   create_table "relationships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -45,6 +43,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_09_072658) do
     t.bigint "guardian_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "relation"
     t.index ["guardian_id"], name: "index_relationships_on_guardian_id"
     t.index ["student_id"], name: "index_relationships_on_student_id"
   end
@@ -108,7 +107,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_09_072658) do
 
   add_foreign_key "classlists", "sections"
   add_foreign_key "classlists", "students"
-  add_foreign_key "guardians", "students"
   add_foreign_key "relationships", "guardians"
   add_foreign_key "relationships", "students"
   add_foreign_key "sections", "subjects"
