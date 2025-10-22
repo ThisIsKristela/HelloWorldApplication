@@ -25,6 +25,7 @@ class RelationshipsController < ApplicationController
 
     respond_to do |format|
       if @relationship.save
+
         @relationship.guardian.increment!(:number_of_students)
         @relationship.student.increment!(:number_of_guardians) 
 
@@ -53,6 +54,7 @@ class RelationshipsController < ApplicationController
   # DELETE /relationships/1 or /relationships/1.json
   def destroy
     @relationship.destroy!
+
     @relationship.guardian.decrement!(:number_of_students)
     @relationship.student.decrement!(:number_of_guardians) 
 
