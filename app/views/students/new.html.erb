@@ -1,7 +1,82 @@
-<%= render "form", student: @student %>
+<% content_for :title, "Create New Student" %>
 
-<br>
+<div class="container mt-4">
+  <div class="card shadow-sm border-0">
+    <div class="card-header text-white fw-bold fs-4" style="background-color: #6f42c1;">
+      <i class="bi bi-person-plus-fill me-2"></i> Create New Student
+    </div>
+    <div class="card-body" style="background-color: #f7e9ff;">
+      <%= form_with(model: @student, local: true) do |form| %>
+        <div class="mb-3">
+          <%= form.label :name, class: "form-label fw-semibold" %>
+          <%= form.text_field :name, class: "form-control", placeholder: "Enter student name" %>
+        </div>
 
-<div>
-  <%= link_to "Back to Students", students_path, class: "btn btn-success mt-3" %>
+        <div class="mb-3">
+          <%= form.label :year_level, "Year Level", class: "form-label fw-semibold" %>
+          <%= form.text_field :year_level, class: "form-control", placeholder: "Enter current year level" %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :program, class: "form-label fw-semibold" %>
+          <%= form.text_field :program, class: "form-control", placeholder: "Enter program/course" %>
+        </div>
+
+        <div class="mb-4">
+          <%= form.label :department_id, "Department", class: "form-label fw-semibold" %>
+          <%= form.collection_select :department_id, Department.all, :id, :name, { prompt: "Select a department" }, class: "form-select" %>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <%= link_to students_path, class: "btn btn-success d-flex align-items-center gap-2" do %>
+            <i class="bi bi-arrow-left-circle"></i> Back to Students
+          <% end %>
+          <%= form.submit "Create Student", class: "btn create-btn d-flex align-items-center gap-2" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
+
+<style>
+  @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css");
+
+  body {
+    background-color: #e6ccff;
+  }
+
+  .create-btn {
+    background-color: #6f42c1;
+    color: white;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(111, 66, 193, 0.3);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .create-btn:hover {
+    background-color: #59309f;
+    box-shadow: 0 6px 12px rgba(89, 48, 159, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .card {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .form-label {
+    color: #4b2996;
+  }
+
+  .form-control, .form-select {
+    border: 1px solid #c4a5ff;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: #6f42c1;
+    box-shadow: 0 0 5px rgba(111, 66, 193, 0.5);
+  }
+</style>

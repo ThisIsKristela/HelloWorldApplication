@@ -1,9 +1,13 @@
-
-
 <% content_for :title, "Students" %>
 
-<h1>List Students</h1>
-<table class="table table-bordered table-striped">
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="fw-bold text-dark">Students</h1>
+  <%= link_to new_student_path, class: "btn btn-lg new-student-btn d-flex align-items-center gap-2" do %>
+    <span class="plus-icon">+</span> New Student
+  <% end %>
+</div>
+
+<table class="table table-bordered table-striped student-table shadow-sm">
   <thead class="table-dark">
     <tr>
       <th>Name</th>
@@ -12,7 +16,7 @@
       <th>Department</th>
       <th>Number of Units</th>
       <th>Total Assessment</th>
-      <th>Show</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -23,15 +27,107 @@
         <td><%= student.program %></td>
         <td><%= student.department.name %></td>
         <td><%= student.number_of_units %></td>
-        <td><%= student.total_assessment%></td>
+        <td><%= student.total_assessment %></td>
         <td>
-          <%= link_to "Show", student, class: "btn btn-sm btn-primary" %>
-          <%= link_to "Edit", edit_student_path(student), class: "btn btn-sm btn-warning" %>
-          <%= link_to "Delete", student, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+          <%= link_to student, class: "btn btn-sm btn-primary d-inline-flex align-items-center gap-1" do %>
+            <i class="bi bi-eye-fill"></i> Show
+          <% end %>
+          <%= link_to edit_student_path(student), class: "btn btn-sm btn-warning d-inline-flex align-items-center gap-1" do %>
+            <i class="bi bi-pencil-square"></i> Edit
+          <% end %>
+          <%= link_to student, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger d-inline-flex align-items-center gap-1" do %>
+            <i class="bi bi-trash-fill"></i> Delete
+          <% end %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to "New student", new_student_path %>
+<style>
+  @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css");
+
+  body {
+    background-color: #f3e6ff;
+  }
+
+  .new-student-btn {
+    background-color: #6f42c1;
+    color: white;
+    border-radius: 50px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border: none;
+    box-shadow: 0 4px 10px rgba(111, 66, 193, 0.3);
+    transition: all 0.25s ease-in-out;
+  }
+
+  .new-student-btn:hover {
+    background-color: #59309f;
+    box-shadow: 0 6px 14px rgba(89, 48, 159, 0.4);
+    transform: translateY(-2px);
+    color: white;
+  }
+
+  .plus-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: #6f42c1;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    line-height: 0;
+  }
+
+  .student-table thead {
+    background-color: #5e2b97 !important;
+  }
+
+  .student-table tbody tr:nth-child(odd) {
+    background-color: #f2e1ff;
+  }
+
+  .student-table tbody tr:nth-child(even) {
+    background-color: #e7ccff;
+  }
+
+  .student-table tbody tr:hover {
+    background-color: #d7b9ff;
+  }
+
+  .btn-primary {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+  }
+
+  .btn-primary:hover {
+    background-color: #4b2996;
+    border-color: #4b2996;
+  }
+
+  .btn-warning {
+    background-color: #b280ff;
+    border-color: #b280ff;
+    color: white;
+  }
+
+  .btn-warning:hover {
+    background-color: #9966ff;
+    border-color: #9966ff;
+    color: white;
+  }
+
+  .btn-danger {
+    background-color: #a349a4;
+    border-color: #a349a4;
+  }
+
+  .btn-danger:hover {
+    background-color: #7a2f7a;
+    border-color: #7a2f7a;
+  }
+</style>

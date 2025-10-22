@@ -10,53 +10,232 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
-    <!-- Bootstrap CSS CDN -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     >
-    
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    >
+
+    <style>
+      /* Slightly deeper purple background */
+      body {
+        background-color: #e5d0ff;
+      }
+
+      .bg-purple { background-color: #6f42c1 !important; }
+
+      .sidebar {
+        width: 80px;
+        transition: width 0.3s ease;
+        overflow-x: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1000;
+      }
+
+      .sidebar:hover {
+        width: 220px;
+      }
+
+      .sidebar .nav-text {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        white-space: nowrap;
+      }
+
+      .sidebar:hover .nav-text {
+        opacity: 1;
+      }
+
+      .sidebar .nav-link {
+        color: #fff;
+        font-weight: 500;
+      }
+
+      .sidebar .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+      }
+
+      .sidebar-header {
+        font-size: 1.1rem;
+        font-weight: bold;
+      }
+
+      .content {
+        margin-left: 80px;
+        transition: margin-left 0.3s ease;
+        padding: 2rem;
+      }
+
+      .sidebar:hover ~ .content {
+        margin-left: 220px;
+      }
+
+      .flash-container {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1050;
+        width: auto;
+      }
+
+      /* Buttons with deeper hover colors */
+      .btn-primary {
+        background-color: #6f42c1 !important;
+        border-color: #6f42c1 !important;
+      }
+      .btn-primary:hover {
+        background-color: #5a32a3 !important;
+        border-color: #5a32a3 !important;
+      }
+
+      .btn-warning {
+        background-color: #a267e8 !important;
+        border-color: #a267e8 !important;
+        color: white !important;
+      }
+      .btn-warning:hover {
+        background-color: #8a3fc1 !important;
+        border-color: #8a3fc1 !important;
+      }
+
+      .btn-danger {
+        background-color: #d63384 !important;
+        border-color: #d63384 !important;
+      }
+      .btn-danger:hover {
+        background-color: #b02a6f !important;
+        border-color: #b02a6f !important;
+      }
+
+      table {
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      thead.table-dark {
+        background-color: #6f42c1 !important;
+      }
+
+      tbody tr:nth-child(odd) {
+        background-color: #e0c3ff;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #ecd9ff;
+      }
+
+      tbody tr:hover {
+        background-color: #d0b3ff;
+      }
+
+      /* Style for the New Student button */
+      .new-student-btn {
+        background-color: #6f42c1;
+        border: none;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s ease;
+        font-weight: 500;
+      }
+
+      .new-student-btn:hover {
+        background-color: #5a32a3;
+        transform: translateY(-2px);
+      }
+
+      /* Table header purple and Students heading color */
+      .table thead th {
+        background-color: #6f42c1 !important; /* same as navbar purple */
+        color: white !important;
+        border-color: #5a34a0 !important;
+      }
+
+h1 {
+  color: #6f42c1; /* matches the theme */
+  font-weight: 700;
+}
+
+    </style>
   </head>
 
-  <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-      <div class="container">
-        <a class="navbar-brand" href="#">School Manager</a>
-        <div>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><%= link_to "Students", students_path, class: "nav-link" %></li>
-            <li class="nav-item"><%= link_to "Teachers", teachers_path, class: "nav-link" %></li>
-            <li class="nav-item"><%= link_to "Sections", sections_path, class: "nav-link" %></li>
-            <li class="nav-item"><%= link_to "Departments", departments_path, class: "nav-link" %></li>
-            <li class="nav-item"><%= link_to "Classlists", classlists_path, class: "nav-link" %></li>
-            <li class="nav-item"><%= link_to "Sections", sections_path, class: "nav-link" %></li>
-            <li class="nav-item"><%= link_to "Subjects", subjects_path, class: "nav-link" %></li>
-          </ul>
-        </div>
+  <body class="d-flex">
+    <nav class="sidebar bg-purple text-white d-flex flex-column align-items-start p-3">
+      <div class="sidebar-header mb-4 d-flex align-items-center">
+        <i class="bi bi-mortarboard-fill me-2 fs-4"></i>
+        <span class="nav-text">PurpleField School</span>
       </div>
+
+      <ul class="nav nav-pills flex-column w-100">
+        <li class="nav-item mb-2">
+          <%= link_to students_path, class: "nav-link d-flex align-items-center" do %>
+            <i class="bi bi-people-fill me-2 fs-5"></i>
+            <span class="nav-text">Students</span>
+          <% end %>
+        </li>
+        <li class="nav-item mb-2">
+          <%= link_to teachers_path, class: "nav-link d-flex align-items-center" do %>
+            <i class="bi bi-person-badge-fill me-2 fs-5"></i>
+            <span class="nav-text">Teachers</span>
+          <% end %>
+        </li>
+        <li class="nav-item mb-2">
+          <%= link_to sections_path, class: "nav-link d-flex align-items-center" do %>
+            <i class="bi bi-diagram-3-fill me-2 fs-5"></i>
+            <span class="nav-text">Sections</span>
+          <% end %>
+        </li>
+        <li class="nav-item mb-2">
+          <%= link_to subjects_path, class: "nav-link d-flex align-items-center" do %>
+            <i class="bi bi-book-fill me-2 fs-5"></i>
+            <span class="nav-text">Subjects</span>
+          <% end %>
+        </li>
+        <li class="nav-item mb-2">
+          <%= link_to departments_path, class: "nav-link d-flex align-items-center" do %>
+            <i class="bi bi-building-fill me-2 fs-5"></i>
+            <span class="nav-text">Departments</span>
+          <% end %>
+        </li>
+        <li class="nav-item mb-2">
+          <%= link_to classlists_path, class: "nav-link d-flex align-items-center" do %>
+            <i class="bi bi-list-ul me-2 fs-5"></i>
+            <span class="nav-text">Classlists</span>
+          <% end %>
+        </li>
+      </ul>
     </nav>
 
-  <% flash.each do |key, message| %>
-      <div class="alert alert-<%= key == "notice" ? "success" : "danger" %> alert-dismissible fade show" role="alert">
-        <%= message %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="content flex-grow-1">
+      <div class="flash-container">
+        <% flash.each do |key, message| %>
+          <div class="alert alert-<%= key == "notice" ? "success" : "danger" %> alert-dismissible fade show" role="alert">
+            <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% end %>
       </div>
-    <% end %>
 
-    <%= yield %>
-    <!-- Bootstrap JS CDN (Optional for dropdowns, nav, etc.) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
-    </script>
+      <%= yield %>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
